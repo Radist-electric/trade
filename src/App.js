@@ -1,6 +1,11 @@
 import { useState } from 'react'
+import { useRoutes } from './routes'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { AppContext } from './context/AppContext'
+import { Header } from './components/header'
 
 export const App = () => {
+  const routes = useRoutes()
   const [values, setValues] = useState({
     count: 0,
     sum: 0,
@@ -78,28 +83,18 @@ export const App = () => {
       average: values.average,
       standardDeviation: values.standardDeviation
     })
-    setTimer({...timer, diff: Date.now() - timer.start})
-  }
-
-  function getTime(ms) {
-    const milliseconds = parseInt((ms % 1000) / 100),
-      seconds = Math.floor((ms / 1000) % 60),
-      minutes = Math.floor((ms / (1000 * 60)) % 60),
-      hours = Math.floor((ms / (1000 * 60 * 60)) % 24),
-      days = Math.floor((ms / (1000 * 60 * 60 * 24)) % 365)
-    
-    return `${days}дн ${hours}ч ${minutes}мин ${seconds}.${milliseconds}с`
+    setTimer({ ...timer, diff: Date.now() - timer.start })
   }
 
   return (
-    <div className='App'>
-      <h1>Данные по котировкам</h1>
-      <button className='button' onClick={createConnection} style={{ backgroundColor: connect ? '#4caf50' : '#1976d2' }}>Старт</button>
-      <button className='button' onClick={getStatistics}>Статистика</button>
-      <p>Среднее значение: <span className='value'>{show.average.toFixed(3)}</span></p>
-      <p>Стандартное отклонение: <span className='value'>{show.standardDeviation.toFixed(3)}</span></p>
-      <p>Время расчётов: <span className='value'>{getTime(timer.diff)}</span></p>
-    </div>
+    <AppContext.Provider value={{createConnection, getStatistics, show, timer, connect}}>
+      <Router>
+        <Header />
+        <div className='App'>
+          {routes}
+        </div>
+      </Router>
+    </AppContext.Provider>
   )
 }
 

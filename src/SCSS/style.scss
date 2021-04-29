@@ -45,3 +45,27 @@ code {
   font-size: 18px;
   font-weight: 700;
 }
+
+.header {
+  height: 50px;
+  background-color: $main-color;
+  &__wrap {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  &__link {
+    margin-right: 20px;
+    font-size: 20px;
+    line-height: 20px;
+    font-weight: 500;
+    color: #FFFFFF;
+    text-decoration: none;
+    &:active, &:visited {
+      color: #FFFFFF;
+    }
+  }
+}
