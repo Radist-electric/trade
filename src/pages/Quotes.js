@@ -28,7 +28,7 @@ export const Quotes = () => {
       <h1>Данные по котировкам</h1>
       <button
         className='button'
-        onClick={context.createConnection}
+        onClick={context.connect ? null : context.createConnection}
         style={{ backgroundColor: bg }}
       >Старт</button>
       <button
