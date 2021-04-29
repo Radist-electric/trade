@@ -14,11 +14,27 @@ export const Quotes = () => {
     return `${days}дн ${hours}ч ${minutes}мин ${seconds}.${milliseconds}с`
   }
 
+  let bg
+  if (context.connect) {
+    bg = '#4caf50'
+  } else if (context.error) {
+    bg = '#FF0000'
+  } else {
+    bg = '#1976d2'
+  }
+
   return (
     <>
       <h1>Данные по котировкам</h1>
-      <button className='button' onClick={context.createConnection} style={{ backgroundColor: context.connect ? '#4caf50' : '#1976d2' }}>Старт</button>
-      <button className='button' onClick={context.getStatistics}>Статистика</button>
+      <button
+        className='button'
+        onClick={context.createConnection}
+        style={{ backgroundColor: bg }}
+      >Старт</button>
+      <button
+        className='button'
+        onClick={context.getStatistics}
+      >Статистика</button>
       <p>Среднее значение: <span className='value'>{context.show.average.toFixed(3)}</span></p>
       <p>Стандартное отклонение: <span className='value'>{context.show.standardDeviation.toFixed(3)}</span></p>
       <p>Время расчётов: <span className='value'>{getTime(context.timer.diff)}</span></p>

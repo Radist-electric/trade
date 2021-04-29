@@ -18,6 +18,7 @@ export const App = () => {
     standardDeviation: 0
   })
   const [connect, setConnect] = useState(false)
+  const [error, setError] = useState(false)
   const [timer, setTimer] = useState({
     start: null,
     diff: null
@@ -30,6 +31,7 @@ export const App = () => {
     socket.onopen = function (e) {
       console.log('Соединение установлено')
       setConnect(true)
+      setError(false)
       setTimer({
         start: Date.now(),
         diff: null
@@ -55,6 +57,7 @@ export const App = () => {
     socket.onerror = function (error) {
       console.log(`[error] ${error.message}`)
       setConnect(false)
+      setError(true)
     }
 
     // Слушаем наличие сообщения
@@ -83,11 +86,13 @@ export const App = () => {
       average: values.average,
       standardDeviation: values.standardDeviation
     })
-    setTimer({ ...timer, diff: Date.now() - timer.start })
+    setTimer((prev)=> {
+      return { ...timer, diff: Date.now() - prev.start }
+    })
   }
 
   return (
-    <AppContext.Provider value={{createConnection, getStatistics, show, timer, connect}}>
+    <AppContext.Provider value={{createConnection, getStatistics, show, timer, connect, error}}>
       <Router>
         <Header />
         <div className='App'>

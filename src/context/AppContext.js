@@ -7,5 +7,6 @@ export const AppContext = createContext({
   getStatistics: noop,
   show: null,
   timer: null,
-  connect: false
+  connect: false,
+  error: false
 })
